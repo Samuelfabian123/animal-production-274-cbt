@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Animal Production 274 – CBT Practice</title>
+<style>
+:root{
+  --green:#14532d; --green2:#166534; --light:#f0f5f1; --ink:#1c1f1d; --mute:#5b655f;
+  --line:#d5ddd7; --gold:#b7791f; --red:#b42318; --ok:#15803d; --bg:#fff;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:var(--light);line-height:1.5}
+button,input{font-family:inherit}
+.top{background:var(--green);color:#fff;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.top h1{font-size:1.05rem;margin:0;font-weight:700}
+.top small{opacity:.8;display:block;font-weight:400}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:20px}
+.login{max-width:440px;margin:40px auto}
+.login h2{margin:0 0 4px;font-size:1.3rem}
+.login p{margin:0 0 16px;color:var(--mute)}
+label{display:block;font-weight:700;margin:12px 0 4px;font-size:.95rem}
+input[type=text]{width:100%;padding:11px 12px;border:1px solid #a9b5ad;border-radius:6px;font-size:1rem}
+input[type=text]:focus{outline:2px solid var(--green2);border-color:var(--green2)}
+.btn{background:var(--green2);color:#fff;border:0;border-radius:6px;padding:11px 18px;font-size:1rem;cursor:pointer}
+.btn:hover{background:var(--green)}
+.btn.alt{background:#fff;color:var(--green);border:1px solid var(--green2)}
+.btn.alt:hover{background:var(--light)}
+.btn.danger{background:var(--red)}
+.btn:focus-visible,.pal button:focus-visible,.opt:focus-within{outline:2px solid var(--gold);outline-offset:2px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.rules{margin:14px 0 0;padding-left:18px;color:var(--mute);font-size:.92rem}
+.err{color:var(--red);font-size:.9rem;min-height:1.2em;margin-top:8px}
+.bar{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+.who{font-size:.9rem}
+.who b{display:block}
+.timer{font-variant-numeric:tabular-nums;font-size:1.5rem;font-weight:700;background:#fff;color:var(--green);border:2px solid var(--green2);border-radius:8px;padding:2px 14px}
+.timer.low{color:var(--red);border-color:var(--red)}
+.layout{display:grid;grid-template-columns:1fr 250px;gap:14px}
+@media(max-width:760px){.layout{grid-template-columns:1fr}}
+.qno{color:var(--mute);font-size:.9rem;margin-bottom:6px}
+.qtext{font-size:1.15rem;margin:0 0 14px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:6px;margin-bottom:8px;cursor:pointer;background:#fff}
+.opt:hover{background:var(--light)}
+.opt.sel{border-color:var(--green2);background:#e6f0e9}
+.opt input{margin-top:5px;accent-color:var(--green2)}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:14px;flex-wrap:wrap}
+.pal h3{margin:0 0 8px;font-size:.95rem}
+.pal .grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.pal button{padding:6px 0;border:1px solid #a9b5ad;background:#fff;border-radius:4px;cursor:pointer;font-size:.85rem}
+.pal button.done{background:var(--green2);color:#fff;border-color:var(--green2)}
+.pal button.cur{outline:2px solid var(--gold);outline-offset:1px}
+.legend{font-size:.8rem;color:var(--mute);margin-top:10px}
+.legend i{display:inline-block;width:11px;height:11px;border:1px solid #a9b5ad;vertical-align:-1px;margin-right:4px}
+.legend i.d{background:var(--green2);border-color:var(--green2)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:9}
+.modal.show{display:flex}
+.modal .card{max-width:400px;width:100%}
+.modal h3{margin:0 0 8px}
+.row{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.score{text-align:center}
+.score .big{font-size:3rem;font-weight:700;color:var(--green);line-height:1.1}
+.score .pct{font-size:1.2rem}
+.meta{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;color:var(--mute);font-size:.92rem;margin:10px 0 16px}
+.rev{margin-top:16px}
+.rev .item{border-top:1px solid var(--line);padding:14px 0}
+.rev .q{font-weight:700;margin:0 0 8px}
+.rev .o{padding:6px 10px;border-radius:5px;margin:3px 0;border:1px solid transparent}
+.rev .o.right{background:#e3f3e8;border-color:#86c79a}
+.rev .o.wrong{background:#fde8e6;border-color:#f0a8a2}
+.rev .tag{font-size:.8rem;font-weight:700;margin-left:6px}
+.rev .skip{color:var(--red);font-size:.88rem;margin-top:4px}
+.hide{display:none!important}
+@media print{.top .btn,.noprint{display:none!important}body{background:#fff}.card{border:0}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>Animal Production 274 – Module 1<small>Computer-Based Test practice · University of Nigeria, Nsukka</small></h1>
+</div>
+
+<div class="wrap">
+
+  <!-- LOGIN -->
+  <section id="login" class="card login">
+    <h2>Candidate login</h2>
+    <p>Enter your details to begin.</p>
+    <label for="nm">Full name</label>
+    <input id="nm" type="text" autocomplete="name" placeholder="e.g. Chinedu Okafor">
+    <label for="rg">Registration number</label>
+    <input id="rg" type="text" autocomplete="off" placeholder="e.g. 2022/248410">
+    <div class="err" id="lerr" role="alert"></div>
+    <ul class="rules">
+      <li>70 questions, 25 minutes.</li>
+      <li>The timer starts when you press Start test.</li>
+      <li>The test submits itself when time runs out.</li>
+      <li>Correct answers to every question show after you submit.</li>
+    </ul>
+    <div style="margin-top:16px"><button class="btn" id="start">Start test</button></div>
+  </section>
+
+  <!-- TEST -->
+  <section id="test" class="hide">
+    <div class="bar">
+      <div class="who"><b id="wn"></b><span id="wr"></span></div>
+      <div class="timer" id="tm" aria-live="off">25:00</div>
+    </div>
+    <div class="layout">
+      <div class="card">
+        <div class="qno" id="qno"></div>
+        <p class="qtext" id="qtext"></p>
+        <div id="opts"></div>
+        <div class="nav">
+          <button class="btn alt" id="prev">Previous</button>
+          <button class="btn" id="next">Next</button>
+        </div>
+      </div>
+      <aside class="card pal">
+        <h3>Questions <span id="cnt" style="font-weight:400;color:var(--mute)"></span></h3>
+        <div class="grid" id="pal"></div>
+        <div class="legend"><i class="d"></i>Answered &nbsp; <i></i>Not answered</div>
+        <div style="margin-top:14px"><button class="btn danger" id="sub" style="width:100%">Submit test</button></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result" class="card hide">
+    <div class="score">
+      <div style="color:var(--mute)" id="rname"></div>
+      <div class="big" id="rscore"></div>
+      <div class="pct" id="rpct"></div>
+      <div class="meta" id="rmeta"></div>
+      <div class="noprint">
+        <button class="btn" id="print">Print / save result</button>
+        <button class="btn alt" id="again">New attempt</button>
+      </div>
+    </div>
+    <div class="rev" id="rev"></div>
+  </section>
+
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <div class="card">
+    <h3 id="mt">Submit test?</h3>
+    <p id="mp"></p>
+    <div class="row">
+      <button class="btn alt" id="mno">Keep working</button>
+      <button class="btn danger" id="myes">Submit now</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- QUESTION BANK (70) : [question, [options], indexOfCorrect] ---------- */
+const Q = [
+/* General & domestication */
+["What is the earliest animal known to have been domesticated?",["Dog","Goat","Sheep","Cattle"],0],
+["The earliest evidence of a domesticated animal (the dog) dates to about how many years ago?",["14,000 years","9,000 years","3,000 years","2,200 years"],0],
+["Human civilization was made possible by the domestication of:",["Animals and plants","Animals only","Plants only","Fish and birds"],0],
+["Which of these is NOT a reason man exploits animals?",["Production of chlorophyll","Labour and transport","Store of wealth and savings","Bride price"],0],
+["Which of these is a non-food product (by-product) of animals?",["Wool","Meat","Milk","Eggs"],0],
+["Which of these is a food product from animals?",["Cheese","Hides","Manure","Bones"],0],
+["Domestication is best defined as:",["The art and science of culturing animals for man's use","Hunting wild animals for sport","Keeping animals in a zoo only","Breeding plants for food"],0],
+["Taming of a domesticated animal implies:",["Instilling obedience and cooperation","Releasing the animal into the wild","Feeding it only grass","Isolating it from humans"],0],
+["The animal's instinct to escape is finally lost through:",["Selection and breeding","Starvation","Hunting","Migration"],0],
+["Animals that lack adaptability and tolerance of human presence are:",["Culled","Preserved for breeding","Used to produce future generations","Given veterinary priority"],0],
+["A group of animals capable of interbreeding is called a:",["Breed","Genus","Order","Phylum"],0],
+["At the stage where a breed has evolved, the group of animals is called a:",["Genetic population","Species barrier","Wild herd","Taxonomic family"],0],
+["Which is an immediate consequence of domestication?",["Decrease in body size","Increase in the desire to escape","Loss of all coat colours","Larger litter of wild young"],0],
+["Accumulation of coat colour varieties is especially seen in the domestic:",["Chicken","Cattle","Buffalo","Sheep"],0],
+["Changes in mouth parts linked to changes in nutrition are seen mainly in:",["Mammals","Birds","Fish","Insects"],0],
+["The ability to forage on their own favoured domestication of:",["Seed and grass eaters","Carnivores only","Insect eaters only","Scavengers only"],0],
+["The ability to imprint means the ability to:",["Acquire and hold behavioural changes","Reproduce in captivity","Forage on its own","Establish social order"],0],
+["Which quality permitted man to keep together large numbers of an animal species?",["Ability to establish and maintain social order","Ability to forage","Ability to hibernate","Ability to migrate"],0],
+["Ability to reproduce in captivity favoured species that were:",["Not highly dependent on specific climatic conditions for breeding","Wholly dependent on rainfall","Strictly nocturnal","Always solitary"],0],
+/* Cattle */
+["Cattle belong to the family:",["Bovidae","Suidae","Canidae","Equidae"],0],
+["The genus of cattle is:",["Bos","Ovis","Capra","Sus"],0],
+["Cattle belong to the order:",["Artiodactyla","Carnivora","Rodentia","Galliformes"],0],
+["Domestic cattle are descended from a wild type known as:",["Aurochs","Mouflon","Bezoar","Junglefowl"],0],
+["Bos taurus is found mainly in the:",["Temperate part of the world","Tropical region only","Polar region","Desert only"],0],
+["Which species of cattle is humped?",["Bos indicus","Bos taurus","Bos brachyceros","Bubalus bubalis"],0],
+["Bos brachyceros cattle are:",["Small-sized breeds found in derived savanna and rain forest","Large humped breeds of the temperate zone","Wild cattle of Europe","Dairy breeds of Switzerland"],0],
+["Which is an example of a Bos brachyceros breed?",["Muturu","Friesian","Jersey","Brahman"],0],
+["Cattle are sacred to the Hindus of India, the Maasai of East Africa and the:",["Cattle Fulani of Nigeria","Hausa traders of Niger","Berbers of Morocco","Zulu of South Africa"],0],
+["Cattle owners who regard cattle as a symbol of wealth will not eat their cattle unless they are:",["Culls","Calves","Pregnant cows","Show animals"],0],
+["In which country are bulls bred for ritual sacrifice and bull fights?",["Spain","Switzerland","India","Nigeria"],0],
+["Flower-bedecked cattle are important at ceremonial occasions in:",["Switzerland","Spain","Thailand","Kenya"],0],
+/* Buffalo */
+["The genus of buffalo is:",["Bubalus","Bos","Capra","Ovis"],0],
+["Buffalo belong to the group:",["Bubalina","Bovina","Caprina","Suina"],0],
+["Domesticated river and swamp buffaloes are found mainly in:",["South East Asia","North America","Northern Europe","West Africa"],0],
+["The Murrah buffalo originated from:",["India","Thailand","Egypt","Italy"],0],
+["The Murrah buffalo is typically:",["Black with white markings on the face, tail and extremities","Entirely white","Red with a hump","Grey with long horns"],0],
+["The Thai buffalo is characterised by a:",["Long face and body","Short, compact body","Loose dewlap and massive head","Bulging forehead"],0],
+["The Nili-Ravi buffalo is usually:",["Black in colour","White in colour","Red in colour","Dun in colour"],0],
+/* Goat */
+["The genus of goat is:",["Capra","Ovis","Bos","Sus"],0],
+["The Bezoar goat has the scientific name:",["Capra aegagrus aegagrus","Capra aegagrus ibex","Capra aegagrus falconeri","Ovis aries"],0],
+["The Markhor goat is:",["Capra aegagrus falconeri","Capra aegagrus aegagrus","Capra aegagrus ibex","Ovis musimon"],0],
+["The main ancestor of all domestic goats is the:",["Bezoar goat","Ibex goat","Markhor goat","Barbary sheep"],0],
+["Goats were domesticated about how many years ago?",["9,000 years","14,000 years","3,000 years","1,000 years"],0],
+["In the order of domestication, goat is believed to have come after the:",["Dog","Cattle","Pig","Chicken"],0],
+["Wool-bearing goats of the Himalayas came from a cross between C. aegagrus aegagrus and:",["C. aegagrus falconeri","C. aegagrus ibex","Ovis ammon","Bos taurus"],0],
+/* Sheep */
+["The scientific name of all domesticated sheep is:",["Ovis aries","Ovis musimon","Capra aegagrus","Bos indicus"],0],
+["Sheep are believed to have been domesticated in:",["Western Asia","Southern Africa","North America","Northern Europe"],0],
+["Which wild sheep is considered the sole ancestor of domestic sheep by more current studies?",["Mouflon (Ovis musimon)","Urial (Ovis orientalis)","Argali (Ovis ammon)","Bighorn (Ovis canadensis)"],0],
+["The urial sheep (Ovis orientalis) is found from Afghanistan to:",["Western Asia","Southern Africa","South America","Australia"],0],
+["The earliest evidence of domesticated sheep (about 11,000 years ago) was found in:",["Zawi Chemi Shanidar, North East Iraq","Nsukka, Nigeria","The Peruvian Andes","Mexico"],0],
+["The Barbary sheep of Africa:",["Was never domesticated and did not contribute to present-day breeds","Is the main ancestor of the West African Dwarf sheep","Is the sole ancestor of Fulani sheep","Was domesticated in Western Asia"],0],
+["Thin-tailed sheep breeds were first introduced into Africa about:",["7,000 years ago","14,000 years ago","500 years ago","2,200 years ago"],0],
+["Which of these is NOT one of the four major domesticated sheep types in Africa?",["Thick-tailed merino sheep","Thin-tailed hairy sheep","Fat-tailed coarse wool sheep","Fat-rumped sheep"],0],
+/* Pigs */
+["Pigs belong to the family:",["Suidae","Bovidae","Canidae","Felidae"],0],
+["Indigenous African pigs and the black pigs of Europe are believed to be derived from:",["Sus scrofa","Sus vittatus","Sus verrucosus","Sus barbatus"],0],
+["The white-type pigs of Asia and China are believed to have developed from:",["Sus vittatus","Sus scrofa","Sus barbatus","Sus salvanius"],0],
+["Sus salvanius is notable because it is:",["A very small pig (about 10 kg) from North East India","A giant pig of about 150 kg","The main ancestor of European pigs","A fully domesticated Asian breed"],0],
+/* Poultry */
+["Which wild species is the Red Jungle fowl?",["Gallus gallus","Gallus varius","Gallus sonneratii","Gallus lafayettii"],0],
+["Authorities who believe all four jungle fowl species contributed genes designate the domestic fowl as:",["Gallus domesticus","Gallus gallus","Gallus varius","Meleagris gallopavo"],0],
+["The Lafayette jungle fowl (Gallus lafayettii) is found in:",["Sri Lanka","Southern India","Java","Mexico"],0],
+["The Grey jungle fowl (Gallus sonneratii) is found in:",["Southern India","Sri Lanka","Java and Indonesia","North Africa"],0],
+["Most authorities believe domestic ducks (other than the Muscovy) originated from the:",["Green-headed mallard","Swan goose","Greylag","Tree duck of Africa"],0],
+["Muscovy ducks were domesticated in:",["Tropical America","East Asia","Europe","West Africa"],0],
+["European, Western Asian and North African breeds of geese were derived from the:",["Greylag (Anser anser)","Swan goose (Anser cygnoides)","Canada goose (Branta canadensis)","Mallard"],0],
+["The ancestor of East and South Asian breeds of geese appears to be the:",["Swan goose (Anser cygnoides)","Greylag (Anser anser)","Canada goose (Branta canadensis)","Muscovy duck"],0],
+["The domestic turkey was derived from the American wild turkey, domesticated probably in:",["Mexico","India","Egypt","China"],0],
+["Turkeys were first introduced into Europe in:",["1523–1524 AD","1585 AD","1000 AD","1900 AD"],0],
+["The guinea fowl is indigenous to:",["Africa","South America","Australia","Northern Europe"],0],
+["Numida meleagris, a domesticated guinea fowl species, is indigenous to:",["West Africa","East Africa","North America","South Asia"],0],
+["Guinea fowl was reintroduced into Europe in the 15th century by the:",["Portuguese explorers","Romans","Spanish bullfighters","English settlers"],0]
+];
+
+/* ---------- CONFIG ---------- */
+const TOTAL_MIN = 25, KEY = "ap274_state_v1";
+const $ = id => document.getElementById(id);
+let S = null, tick = null;
+
+/* ---------- HELPERS ---------- */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function save(){try{sessionStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function load(){try{return JSON.parse(sessionStorage.getItem(KEY))}catch(e){return null}}
+function clear(){try{sessionStorage.removeItem(KEY)}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function show(id){["login","test","result"].forEach(x=>$(x).classList.toggle("hide",x!==id))}
+function fmt(ms){ms=Math.max(0,ms);const s=Math.ceil(ms/1000),m=Math.floor(s/60);return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+
+/* ---------- START ---------- */
+function startTest(){
+  const name=$("nm").value.trim().replace(/\s+/g," ");
+  let reg=$("rg").value.trim().toUpperCase().replace(/\s+/g,"");
+  if(/^\d{5,}$/.test(reg))reg=reg.slice(0,4)+"/"+reg.slice(4);
+  if(name.length<3){$("lerr").textContent="Enter your full name.";return}
+  if(!/^\d{4}\/\d{4,7}$/.test(reg)){$("lerr").textContent="Enter your reg number in this form: 2022/248410";return}
+  $("lerr").textContent="";
+  const order=shuffle(Q.map((_,i)=>i)).map(qi=>({qi,p:shuffle([0,1,2,3])}));
+  S={name,reg,start:Date.now(),end:null,order,ans:{},cur:0,done:false};
+  save();begin();
+}
+function begin(){
+  show("test");
+  $("wn").textContent=S.name;$("wr").textContent="Reg No: "+S.reg;
+  buildPal();render();
+  clearInterval(tick);tick=setInterval(update,500);update();
+}
+
+/* ---------- RENDER ---------- */
+function buildPal(){
+  const g=$("pal");g.innerHTML="";
+  S.order.forEach((_,i)=>{
+    const b=document.createElement("button");b.textContent=i+1;b.setAttribute("aria-label","Go to question "+(i+1));
+    b.onclick=()=>{S.cur=i;save();render()};g.appendChild(b);
+  });
+}
+function render(){
+  const o=S.order[S.cur],q=Q[o.qi];
+  $("qno").textContent="Question "+(S.cur+1)+" of "+Q.length;
+  $("qtext").textContent=q[0];
+  const box=$("opts");box.innerHTML="";
+  o.p.forEach((orig,di)=>{
+    const lab=document.createElement("label");lab.className="opt"+(S.ans[S.cur]===di?" sel":"");
+    lab.innerHTML='<input type="radio" name="o" '+(S.ans[S.cur]===di?"checked":"")+'><span><b>'+"ABCD"[di]+'.</b> '+esc(q[1][orig])+'</span>';
+    lab.querySelector("input").onchange=()=>{S.ans[S.cur]=di;save();render()};
+    box.appendChild(lab);
+  });
+  $("prev").disabled=S.cur===0;
+  $("next").disabled=S.cur===Q.length-1;
+  [...$("pal").children].forEach((b,i)=>{
+    b.className=(S.ans[i]!==undefined?"done ":"")+(i===S.cur?"cur":"");
+  });
+  $("cnt").textContent="("+Object.keys(S.ans).length+"/"+Q.length+" answered)";
+}
+function update(){
+  const left=S.start+TOTAL_MIN*60000-Date.now();
+  $("tm").textContent=fmt(left);
+  $("tm").classList.toggle("low",left<=5*60000);
+  if(left<=0)finish();
+}
+
+/* ---------- SUBMIT & RESULT ---------- */
+function askSubmit(){
+  const un=Q.length-Object.keys(S.ans).length;
+  $("mp").textContent=un?("You have "+un+" unanswered question"+(un>1?"s":"")+". Submit anyway?"):"You have answered every question. Submit now?";
+  $("modal").classList.add("show");$("myes").focus();
+}
+function finish(){
+  if(!S||S.done)return;
+  clearInterval(tick);S.done=true;S.end=Math.min(Date.now(),S.start+TOTAL_MIN*60000);save();
+  $("modal").classList.remove("show");showResult();
+}
+function showResult(){
+  show("result");window.scrollTo(0,0);
+  let score=0;
+  S.order.forEach((o,i)=>{const q=Q[o.qi];if(S.ans[i]!==undefined&&o.p[S.ans[i]]===q[2])score++});
+  const pct=Math.round(score/Q.length*100);
+  const used=S.end-S.start;
+  $("rname").textContent=S.name+" · "+S.reg;
+  $("rscore").textContent=score+" / "+Q.length;
+  $("rpct").textContent=pct+"%";
+  $("rmeta").innerHTML="<span>Answered: "+Object.keys(S.ans).length+"</span><span>Correct: "+score+"</span><span>Wrong: "+(Object.keys(S.ans).length-score)+"</span><span>Time used: "+fmt(used)+"</span>";
+  let h="";
+  S.order.forEach((o,i)=>{
+    const q=Q[o.qi],sel=S.ans[i];
+    h+='<div class="item"><p class="q">'+(i+1)+'. '+esc(q[0])+'</p>';
+    o.p.forEach((orig,di)=>{
+      const right=orig===q[2],mine=sel===di;
+      let cls="o",tag="";
+      if(right){cls+=" right";tag=mine?'<span class="tag" style="color:#15803d">Your answer · Correct</span>':'<span class="tag" style="color:#15803d">Correct answer</span>'}
+      else if(mine){cls+=" wrong";tag='<span class="tag" style="color:#b42318">Your answer</span>'}
+      h+='<div class="'+cls+'"><b>'+"ABCD"[di]+'.</b> '+esc(q[1][orig])+tag+'</div>';
+    });
+    if(sel===undefined)h+='<div class="skip">Not answered</div>';
+    h+='</div>';
+  });
+  $("rev").innerHTML=h;
+}
+
+/* ---------- EVENTS ---------- */
+$("start").onclick=startTest;
+$("rg").addEventListener("input",e=>{const v=e.target.value.replace(/[^\d\/]/g,"");if(/^\d{5,}$/.test(v))e.target.value=v.slice(0,4)+"/"+v.slice(4)});
+["nm","rg"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")startTest()}));
+$("prev").onclick=()=>{if(S.cur>0){S.cur--;save();render()}};
+$("next").onclick=()=>{if(S.cur<Q.length-1){S.cur++;save();render()}};
+$("sub").onclick=askSubmit;
+$("mno").onclick=()=>$("modal").classList.remove("show");
+$("myes").onclick=finish;
+$("print").onclick=()=>window.print();
+$("again").onclick=()=>{clear();S=null;$("nm").value="";$("rg").value="";show("login")};
+document.addEventListener("keydown",e=>{
+  if(!S||S.done||$("test").classList.contains("hide")||$("modal").classList.contains("show"))return;
+  if(e.target.tagName==="INPUT"&&e.target.type==="text")return;
+  const k=e.key.toLowerCase();
+  if("abcd".includes(k)&&k.length===1){S.ans[S.cur]="abcd".indexOf(k);save();render()}
+  else if(e.key==="ArrowRight")$("next").click();
+  else if(e.key==="ArrowLeft")$("prev").click();
+});
+
+/* ---------- RESUME AFTER REFRESH ---------- */
+(function(){
+  const s=load();
+  if(s&&s.order&&s.order.length===Q.length){
+    S=s;
+    if(S.done){showResult()}
+    else if(Date.now()>=S.start+TOTAL_MIN*60000){S.done=true;S.end=S.start+TOTAL_MIN*60000;save();showResult()}
+    else begin();
+  }
+})();
+</script>
+</body>
+</html>
